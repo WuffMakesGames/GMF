@@ -13,7 +13,9 @@
     {"$GMFolder":"","%Name":"GMF","folderPath":"folders/GMF.yy","name":"GMF","resourceType":"GMFolder","resourceVersion":"2.0",},
   ],
   "ForcedPrefabProjectReferences":[],
-  "IncludedFiles":[],
+  "IncludedFiles":[
+    {"$GMIncludedFile":"","%Name":"gmf_specs.md","CopyToMask":-1,"filePath":"datafiles","name":"gmf_specs.md","resourceType":"GMIncludedFile","resourceVersion":"2.0",},
+  ],
   "isEcma":false,
   "LibraryEmitters":[],
   "MetaData":{
@@ -21,7 +23,6 @@
   },
   "name":"GMF",
   "resources":[
-    {"id":{"name":"GMF Specs","path":"notes/GMF Specs/GMF Specs.yy",},},
     {"id":{"name":"Room1","path":"rooms/Room1/Room1.yy",},},
     {"id":{"name":"gmf_snakecase","path":"scripts/gmf_snakecase/gmf_snakecase.yy",},},
     {"id":{"name":"GMF","path":"scripts/GMF/GMF.yy",},},
