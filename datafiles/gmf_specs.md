@@ -27,8 +27,9 @@ Available aince GMF1.
 |------|------|-------------|
 | Size | String | The length of the entry in bytes. |
 | Name | String | The name of the file. |
-| Offset | String | The offset in bytes of the file in the blob. |
-| Bytes  | String | The size of the blob entry in bytes. |
+| Compressed | Bool   | Whether or not the file has been compressed. |
+| Offset     | String | The offset in bytes of the file in the blob. |
+| Bytes      | String | The size of the blob entry in bytes. |
 
 ### BLOB
 Marks the end of the header and the beginning of the blob section. The blob contains all of the file data.  

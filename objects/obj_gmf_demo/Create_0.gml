@@ -1,6 +1,6 @@
 /// @description 
 
-gmf = new GMF()
+gmf = new GMF("data.gmf")
 
 // GMF View
 view_gmf = dbg_view("Get Me the Files!", true, undefined, undefined, undefined, 600)
@@ -9,8 +9,7 @@ dbg_text("GameMaker file format for bundling game assets at runtime.")
 
 // Controls
 dbg_button("Load", function() {
-	var _filename = get_open_filename("GMF (*.gmf)|*.gmf", "")
-	if (_filename != "") gmf.Open(_filename)
+	gmf.Open()
 	RefreshFiles()
 }, 100, 20)
 
