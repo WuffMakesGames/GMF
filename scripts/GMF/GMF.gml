@@ -1,21 +1,33 @@
 /// Get Me the Files!
-function GMF() constructor {
+/// @arg {String} filename The object file to load
+function GMF(_filename) constructor {
+	filename = _filename
+	
+	// Internal variables
 	__buffer = -1
 	__blob = 0 // Position of the blob in the buffer
 	
 	//===============================================================
 	#region Methods
 	
-	/// Load a GMF object into memory. Returns -1 if the file cannot be loaded.
-	/// @arg {String} filename The object file to load
-	static Open = function(_filename) {
-		if (!file_exists(_filename)) return -1;
+	/// Load a GMF object into memory. Returns -1 if the file cannot be loaded. Returns 1 otherwise
+	/// @return {Real}
+	static Open = function() {
+		if (!file_exists(filename)) return -1;
 		
+		// Successfully opened object
+		return 1
 	}
 	
-	/// Close the GMF object
+	/// Close the GMF object.
 	static Close = function() {
 		if (!buffer_exists(__buffer)) show_error("[GMF] Tried to close unopened GMF object.", true)
+	}
+	
+	/// Returns true if the GMF object is currently open.
+	/// @return {Bool}
+	static IsOpen = function() {
+		return buffer_exists(__buffer)
 	}
 	
 	#endregion
