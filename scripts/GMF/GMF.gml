@@ -4,9 +4,8 @@ function GMF(_filename) constructor {
 	filename = _filename
 	
 	// Internal variables
-	__buffer = -1
-	__blob = 0 // Position of the blob in the buffer
 	__directory_tree = {}
+	__blob_buffer = -1
 	
 	//===============================================================
 	#region Methods
@@ -14,27 +13,56 @@ function GMF(_filename) constructor {
 	/// Load a GMF object into memory. Returns -1 if the file cannot be loaded. Returns 1 otherwise.
 	/// @return {Real}
 	static Open = function() {
-		if (!file_exists(filename)) return -1;
+		__directory_tree = {}
+		__blob_buffer = buffer_create(100, buffer_grow, 1)
 		
-		// Successfully opened object
+		// Try to load file
+		if (!file_exists(filename)) return -1;
+		var _buffer = buffer_load(filename)
+		
+		if (!buffer_exists(_buffer)) return -1;
+		__ParseObject(_buffer)
+		buffer_delete(_buffer)
+		
+		// Successfully loaded object
 		return 1
 	}
 	
 	/// Close the GMF object.
 	static Close = function() {
-		if (!buffer_exists(__buffer)) show_error("[GMF] Tried to close unopened GMF object.", true)
-		buffer_delete(__buffer)
+		if (!buffer_exists(__blob_buffer)) show_error("[GMF] Tried to close unopened GMF object.", true)
+		buffer_delete(__blob_buffer)
 	}
 	
 	/// Returns true if the GMF object is currently open.
 	/// @return {Bool}
 	static IsOpen = function() {
-		return buffer_exists(__buffer)
+		return buffer_exists(__blob_buffer)
+	}
+	
+	/// Destroys any temporary files generated created by GMF during runtime.
+	static Cleanup = function() {
+		if (directory_exists("GMFTEMP")) directory_destroy("GMFTEMP")
+	}
+	
+	/// Saves the object to a file on disk.
+	static Save = function() {
+		
 	}
 	
 	#endregion
 	//===============================================================
 	#region Building
+	
+	/// Adds a buffer to the object.
+	/// @arg {Id.Buffer} buffer
+	/// @arg {Real} offset
+	/// @arg {Real} size
+	/// @arg {Bool} compress
+	static AddBuffer = function(_filename, _buffer, _offset=0, _size=buffer_get_size(_buffer), _compress=true) {
+		if (!buffer_exists(__blob_buffer)) show_error("[GMF] Cannot add files to an unopened GMF object.", true)
+		
+	}
 	
 	/// Adds a file to the object.
 	/// @arg {String} filename
@@ -43,15 +71,6 @@ function GMF(_filename) constructor {
 		var _buffer = buffer_load(_filename)
 		AddBuffer(_filename, _buffer, buffer_get_size(_buffer), _compress)
 		buffer_delete(_buffer)
-	}
-	
-	/// Adds a buffer to the object.
-	/// @arg {Id.Buffer} buffer
-	/// @arg {Real} offset
-	/// @arg {Real} size
-	/// @arg {Bool} compress
-	static AddBuffer = function(_filename, _buffer, _offset=0, _size=buffer_get_size(_buffer), _compress=true) {
-		
 	}
 	
 	/// Adds a directory to the object.
@@ -74,11 +93,6 @@ function GMF(_filename) constructor {
 		
 	}
 	
-	/// Saves the object to a file on disk.
-	static Save = function() {
-		
-	}
-	
 	#endregion
 	//===============================================================
 	#region File System
@@ -94,13 +108,18 @@ function GMF(_filename) constructor {
 	/// @arg {GMFile,String} file_or_path The file to preload
 	/// @arg {String} filename The filename to write to
 	/// @return {String}
-	static Preload = function(_file_or_path, _fname=undefined) {
-		
+	static Prefetch = function(_file_or_path, _fname=undefined) {
 	}
 	
 	/// Returns a file contents as a buffer.
 	/// @arg {GMFile,String} file_or_path The file to load
-	static Load = function(_file_or_path) {
+	static Fetch = function(_file_or_path) {
+		
+	}
+	
+	/// Checks if a file exists at the given path
+	/// @arg {String} path
+	static FileExists = function(_path) {
 		
 	}
 	
@@ -108,7 +127,22 @@ function GMF(_filename) constructor {
 	//===============================================================
 	#region Internal
 	
-	static __ParseObject = function() {
+	/// Parses a path and returns the struct or file at its location
+	/// @arg {String} path Path to parse
+	/// @arg {Bool} generate_directory Whether to generate the folders leading up to the path
+	static __ParsePath = function(_path, _generate_directory=false) {
+		
+	}
+	
+	/// Parse a GMF object from a buffer
+	/// @arg {Id.Buffer} buffer
+	static __ParseObject = function(_buffer) {
+		
+	}
+	
+	/// Store the GMF object to a buffer
+	/// @return {Id.Buffer}
+	static __StoreObject = function() {
 		
 	}
 	
