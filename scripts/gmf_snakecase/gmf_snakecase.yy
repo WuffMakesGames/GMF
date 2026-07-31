@@ -1,0 +1,13 @@
+{
+  "$GMScript":"v1",
+  "%Name":"gmf_snakecase",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"gmf_snakecase",
+  "parent":{
+    "name":"GMF",
+    "path":"folders/GMF.yy",
+  },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
+}
