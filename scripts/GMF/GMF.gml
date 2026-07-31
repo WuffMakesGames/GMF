@@ -25,7 +25,6 @@ function GMF() constructor {
 	/// Adds a file to the object
 	/// @arg {String} filename
 	static AddFile = function(_filename) {
-		if (!buffer_exists(__buffer)) show_error("[GMF] Tried to add a file to an unopened GMF object.", true)
 		
 	}
 	
@@ -33,14 +32,12 @@ function GMF() constructor {
 	/// @arg {String} directory
 	/// @arg {Bool} include_subfolders
 	static AddDirectory = function(_directory, _include_subfolders=true) {
-		if (!buffer_exists(__buffer)) show_error("[GMF] Tried to add a directory to an unopened GMF object.", true)
 		
 	}
 	
 	/// Saves the object to a file on disk
 	/// @arg {String} filename The filename to save the object as
 	static Save = function(_filename) {
-		if (!buffer_exists(__buffer)) show_error("[GMF] Tried to save an unopened GMF object.", true)
 		
 	}
 	
@@ -71,4 +68,5 @@ function GMF() constructor {
 	
 	#endregion
 	//===============================================================
+	
 }
