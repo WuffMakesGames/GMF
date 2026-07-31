@@ -59,18 +59,31 @@ function GMF(_filename) constructor {
 	/// @arg {Real} offset
 	/// @arg {Real} size
 	/// @arg {Bool} compress
+	/// @return {Struct.GMFile}
 	static AddBuffer = function(_filename, _buffer, _offset=0, _size=buffer_get_size(_buffer), _compress=true) {
 		if (!buffer_exists(__blob_buffer)) show_error("[GMF] Cannot add files to an unopened GMF object.", true)
+		var _dir = filename_dir(_filename)
+		var _name = filename_name(_filename)
+		var _struct = __ParsePath(_dir, true)
 		
+		// Create file
+		var _blob_offset = buffer_get_used_size(__blob_buffer)
+		var _file = new GMFile(_name, _blob_offset, _size, _compress)
+		struct_set(_path, _name, _file)
+		buffer_copy(_buffer, _offset, _size, __blob_buffer, _blob_offset)
+		
+		return _file
 	}
 	
 	/// Adds a file to the object.
 	/// @arg {String} filename
 	/// @arg {Bool} compress
+	/// @return {Struct.GMFile}
 	static AddFile = function(_filename, _compress=true) {
 		var _buffer = buffer_load(_filename)
-		AddBuffer(_filename, _buffer, buffer_get_size(_buffer), _compress)
+		var _file = AddBuffer(_filename, _buffer, buffer_get_size(_buffer), _compress)
 		buffer_delete(_buffer)
+		return _file
 	}
 	
 	/// Adds a directory to the object.
@@ -131,7 +144,11 @@ function GMF(_filename) constructor {
 	/// @arg {String} path Path to parse
 	/// @arg {Bool} generate_directory Whether to generate the folders leading up to the path
 	static __ParsePath = function(_path, _generate_directory=false) {
-		
+		var _steps = string_split(_path, "/", true)
+		//var _value
+		//while (array_length(_steps) > 0) {
+		//	var 
+		//}
 	}
 	
 	/// Parse a GMF object from a buffer
