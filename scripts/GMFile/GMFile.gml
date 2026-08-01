@@ -1,10 +1,12 @@
+/// @arg {String} path
 /// @arg {String} name
 /// @arg {Real} offset
-/// @arg {Real} bytes
+/// @arg {Real} size
 /// @arg {Bool} compressed
-function GMFile(_name, _offset, _bytes, _compressed) constructor {
+function GMFile(_path, _name, _offset, _size, _compressed) constructor {
+	path = _path
 	name = _name
 	offset = _offset
-	bytes = _bytes
+	size = _size
 	compressed = _compressed
 }

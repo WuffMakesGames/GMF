@@ -1,19 +1,25 @@
 /// @description 
 
-var _fname = "/folder/subdir/file.ext"
-show_debug_message(filename_dir(_fname))
-show_debug_message(filename_path(_fname))
-show_debug_message(filename_name(_fname))
+//var _fname = "/folder/subdir/file.ext"
+//show_debug_message(filename_dir(_fname))
+//show_debug_message(filename_path(_fname))
+//show_debug_message(filename_name(_fname))
 
 gmf = new GMF("data.gmf")
 
 // Generate object
 gmf.Open()
-gmf.AddDirectory("/gmf")
+gmf.AddDirectory("gmf/", true)
 gmf.Save()
 
 // Variables
 files_selected = []
+
+sprite_preview = -1
+sprite_imgnum = 0
+
+ref_to_sprite = ref_create(self, "sprite_preview")
+ref_to_imgnum = ref_create(self, "sprite_imgnum")
 
 // Views and sections
 view_gmf = dbg_view("Get Me the Files!", true, 60, 60, undefined, 600)
@@ -28,13 +34,36 @@ dbg_text("Select a file to view it")
 
 // Methods 
 //===================================================================
-ViewFile = function(_filename) {
+ViewFile = function(_file_or_filename) {
 	dbg_set_view(view_file)
 	dbg_section_delete(view_file_preview)
-	view_file_preview = dbg_section("Preview", true)
 	
+	// Reset
+	if (sprite_exists(sprite_preview)) sprite_delete(sprite_preview)
+	
+	// Create section
+	view_file_preview = dbg_section(_file_or_filename.name, true)
+		
 	// File Preview
-	dbg_text(_filename)
+	switch (filename_ext(_file_or_filename.name)) {
+		case ".gif": {
+			gmf.Prefetch(_file_or_filename, "preview.gif")
+			sprite_preview = sprite_add_gif("preview.gif", 0, 0)
+			dbg_sprite(ref_to_sprite, ref_to_imgnum)
+			break
+		}
+		case ".png": {
+			gmf.Prefetch(_file_or_filename, "preview.png")
+			sprite_preview = sprite_add("preview.png", 1, false, false, 0, 0)
+			dbg_sprite(ref_to_sprite, ref_to_imgnum)
+			break
+		}
+		default: {
+			//dbg_text("Can't preview file")
+			dbg_text(gmf.FetchText(_file_or_filename))
+			break
+		}
+	}
 }
 
 RefreshFiles = function() {
@@ -72,23 +101,32 @@ RefreshFiles = function() {
 	dbg_text_separator("File Tree", 0)
 	
 	// File tree
-	for (var _i = 0; _i < 50; _i++) {
-		files_selected[_i] = false
+	var _directories = [gmf.GetDirectory("/")]
+	while (array_length(_directories) > 0) {
+		var _dir = array_pop(_directories)
+		var _files = struct_get_names(_dir)
 		
-		dbg_checkbox(ref_create(self, "files_selected", _i), $"folder/subfolder/{_i}.txt")
-		dbg_same_line()
-		
-		dbg_button("View", method({ ViewFile, file: _i}, function() {
-			ViewFile(file)
-		}), 40, 20)
-		dbg_same_line()
-		dbg_button("Remove", method({ ViewFile, file: _i}, function() {
-			ViewFile(file)
-		}), 60, 20)
-		//dbg_same_line()
-		//dbg_text()
+		for (var _i = 0; _i < array_length(_files); _i++) {
+			var _item = struct_get(_dir, _files[_i])
+			
+			// Add file
+			if (is_instanceof(_item, GMFile)) {
+				dbg_checkbox(ref_create(self, "files_selected", _i), _item.path + _item.name)
+				dbg_same_line()
+				dbg_button("View", method({ ViewFile, file: _item}, function() {
+					ViewFile(file)
+				}), 40, 20)
+				dbg_same_line()
+				dbg_button("Remove", method({ gmf, file: _item}, function() {
+					gmf.RemoveFile(file)
+				}), 60, 20)
+				
+			// Add folder
+			} else {
+				array_push(_directories, _item)
+			}
+		}
 	}
-	
 }
 
 RefreshFiles()
