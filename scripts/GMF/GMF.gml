@@ -160,6 +160,7 @@ function GMF(_filename) constructor {
 	#region File System
 	
 	/// Returns a file object
+	/// @arg {String} path
 	/// @return {Struct.GMFile}
 	static GetFile = function(_path) {
 		// TODO: Implement
@@ -184,6 +185,7 @@ function GMF(_filename) constructor {
 	
 	/// Returns a files contents as a buffer.
 	/// @arg {GMFile,String} file_or_path The file to load
+	/// @return {Id.Buffer}
 	static Fetch = function(_file_or_path) {
 		if (is_string(_file_or_path)) _file_or_path = GetFile(_file_or_path)
 		
@@ -205,6 +207,7 @@ function GMF(_filename) constructor {
 	
 	/// Returns a files contents as a string.
 	/// @arg {GMFile,String} file_or_path The file to load
+	/// @return {String}
 	static FetchText = function(_file_or_path) {
 		var _buffer = Fetch(_file_or_path)
 		var _text = buffer_read(_buffer, buffer_text)
@@ -214,6 +217,7 @@ function GMF(_filename) constructor {
 	
 	/// Checks if a file exists at the given path
 	/// @arg {String} path
+	/// @return {Bool}
 	static FileExists = function(_path) {
 		
 	}
