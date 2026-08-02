@@ -27,7 +27,7 @@ This example opens a GMF object, loads a sprite and then closes the object.
 ### `GMF.Open`
 Load a GMF object into memory. Returns -1 if the file cannot be loaded. Returns 1 otherwise.
 ```js
-success = gmf.Open();
+gmf.Open();
 ```
 
 Returns: `N/A` 
