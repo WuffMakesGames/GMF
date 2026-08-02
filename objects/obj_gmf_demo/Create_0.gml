@@ -47,19 +47,18 @@ ViewFile = function(_file_or_filename) {
 	// File Preview
 	switch (filename_ext(_file_or_filename.name)) {
 		case ".gif": {
-			gmf.Prefetch(_file_or_filename, "preview.gif")
-			sprite_preview = sprite_add_gif("preview.gif", 0, 0)
+			gmf.Prefetch(_file_or_filename, "temp/preview.gif")
+			sprite_preview = sprite_add_gif("temp/preview.gif", 0, 0, undefined, undefined)
 			dbg_sprite(ref_to_sprite, ref_to_imgnum)
 			break
 		}
 		case ".png": {
-			gmf.Prefetch(_file_or_filename, "preview.png")
-			sprite_preview = sprite_add("preview.png", 1, false, false, 0, 0)
+			gmf.Prefetch(_file_or_filename, "temp/preview.png")
+			sprite_preview = sprite_add("temp/preview.png", 1, false, false, 0, 0)
 			dbg_sprite(ref_to_sprite, ref_to_imgnum)
 			break
 		}
 		default: {
-			//dbg_text("Can't preview file")
 			dbg_text(gmf.FetchText(_file_or_filename))
 			break
 		}

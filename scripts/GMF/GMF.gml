@@ -40,11 +40,6 @@ function GMF(_filename) constructor {
 		return buffer_exists(__blob_buffer)
 	}
 	
-	/// Destroys any temporary files generated created by GMF during runtime.
-	static Cleanup = function() {
-		if (directory_exists("GMFTEMP")) directory_destroy("GMFTEMP")
-	}
-	
 	/// Saves the object to a file on disk.
 	static Save = function() {
 		
@@ -55,6 +50,7 @@ function GMF(_filename) constructor {
 	#region Building
 	
 	/// Adds a buffer to the object.
+	/// @arg {String} filename
 	/// @arg {Id.Buffer} buffer
 	/// @arg {Real} offset
 	/// @arg {Real} size
